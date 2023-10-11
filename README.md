@@ -63,6 +63,6 @@ The Backend API will be running at `localhost:5000`.
 
 # Deployment
 * Currenly running the application Locally
-
-  # Security Features
-* Currenly running the application Locally 
+  
+# Security Features
+* Coming up soon
