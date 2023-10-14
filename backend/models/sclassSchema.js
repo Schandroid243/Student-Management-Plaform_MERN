@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const sclassSchema = new mongoose.Schema({
     sclassName: {
-        type: String,
+        type: String ,
         required: true,
     },
     school: {
@@ -12,4 +12,3 @@ const sclassSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model("sclass", sclassSchema);
-

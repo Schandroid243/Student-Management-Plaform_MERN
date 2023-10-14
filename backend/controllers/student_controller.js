@@ -2,11 +2,52 @@ const bcrypt = require('bcrypt');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 
+
+const validateStudentPassword = (password) => {
+    // Define your password criteria
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$/;
+
+    if (!password.match(passwordRegex)) {
+        return false; // Password does not meet the criteria
+    }
+
+    return true; // Password is valid
+};
+
+
 const studentRegister = async (req, res) => {
     try {
+        // Check if the email already exists
+        const existingStudentByEmail = await Student.findOne({
+            email: req.body.email,
+        });
+
+        if (existingStudentByEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        // Validate the student's password
+        const isPasswordValid = validateStudentPassword(req.body.password);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Password does not meet the criteria.' });
+        }
+
+        // Check if passwords match
+        // if (req.body.password !== req.body.retypedPassword) {
+        //     return res.status(400).json({ message: 'Passwords do not match' });
+        // }
+
+        if (req.body.password !== req.body.retypepassword) {
+            return res.status(400).json({ message: 'Passwords do not match' });
+        }
+        
+
+        // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
 
+        // Check if the student already exists based on roll number and class
         const existingStudent = await Student.findOne({
             rollNum: req.body.rollNum,
             school: req.body.adminID,
@@ -14,13 +55,12 @@ const studentRegister = async (req, res) => {
         });
 
         if (existingStudent) {
-            res.send({ message: 'Roll Number already exists' });
-        }
-        else {
+            return res.status(400).json({ message: 'Roll Number already exists' });
+        } else {
             const student = new Student({
                 ...req.body,
                 school: req.body.adminID,
-                password: hashedPass
+                password: hashedPass,
             });
 
             let result = await student.save();
