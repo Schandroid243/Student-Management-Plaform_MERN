@@ -19,6 +19,6 @@ const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: false,
         }),
-});
+});   
 
 export default store;

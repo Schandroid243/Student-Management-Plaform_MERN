@@ -5,7 +5,9 @@ const router = require('express').Router();
 const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
 
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
-const { complainCreate, complainList } = require('../controllers/complain-controller.js');
+
+// adding complain routes 
+const { complainCreate, complainList,complainListForAdmin  } = require('../controllers/complain-controller.js');
 const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
 const {
     studentRegister,
@@ -115,5 +117,9 @@ router.get("/Subject/:id", getSubjectDetail)
 router.delete("/Subject/:id", deleteSubject)
 router.delete("/Subjects/:id", deleteSubjects)
 router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
+
+
+// Define a route for admins to list all complaints
+router.get('/complaints/all', complainListForAdmin);
 
 module.exports = router;

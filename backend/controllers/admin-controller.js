@@ -36,34 +36,6 @@ const Complain = require('../models/complainSchema.js');
 //     }
 // };
 
-// const adminLogIn = async (req, res) => {
-//     if (req.body.email && req.body.password) {
-//         let admin = await Admin.findOne({ email: req.body.email });
-//         if (admin) {
-//             const validated = await bcrypt.compare(req.body.password, admin.password);
-//             if (validated) {
-//                 admin.password = undefined;
-//                 res.send(admin);
-//             } else {
-//                 res.send({ message: "Invalid password" });
-//             }
-//         } else {
-//             res.send({ message: "User not found" });
-//         }
-//     } else {
-//         res.send({ message: "Email and password are required" });
-//     }
-// };
-// Define the password validation function
-function validatePassword(password) {
-    // Check for the password criteria
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecialCharacter = /[!@#$%^&*]/.test(password);
-    const hasMinimumLength = password.length >= 8;
-
-    return hasUppercase && hasNumber && hasSpecialCharacter && hasMinimumLength;
-}
 
 const adminRegister = async (req, res) => {
     try {
@@ -93,7 +65,7 @@ const adminRegister = async (req, res) => {
         result.password = undefined;
         res.send(result);
     } catch (err) {
-        res.status(500).send({ message: 'Password Error' });
+        res.status(500).json(err);
     }
 };
 

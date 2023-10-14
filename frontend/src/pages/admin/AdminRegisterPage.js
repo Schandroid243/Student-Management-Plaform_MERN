@@ -10,6 +10,7 @@ import { LightPurpleButton } from '../../components/buttonStyles';
 import { registerUser } from '../../redux/userRelated/userHandle';
 import styled from 'styled-components';
 import Popup from '../../components/Popup';
+import axios from 'axios';
 
 const defaultTheme = createTheme();
 
@@ -33,12 +34,12 @@ const AdminRegisterPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+    
         const name = event.target.adminName.value;
         const schoolName = event.target.schoolName.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
-
+    
         if (!name || !schoolName || !email || !password) {
             if (!name) setAdminNameError(true);
             if (!schoolName) setSchoolNameError(true);
@@ -46,12 +47,41 @@ const AdminRegisterPage = () => {
             if (!password) setPasswordError(true);
             return;
         }
+    
+        // Make an Axios request to your server to handle registration
+        axios
+            .post('/AdminReg', {
+                name,
+                email,
+                password,
+                role,
+                schoolName,
+            })
+            .then((response) => {
+                // Registration successful, handle the success response here if needed
+                console.log('Registration successful:', response.data);
+    
+                // If needed, you can perform additional actions here
+    
+                // Redirect the user to the admin dashboard
+                navigate('/Admin/dashboard');
+            })
+            .catch((error) => {
+                // Registration failed, handle the error
+                console.error('Axios error:', error);
+    
+               
+    // Log the detailed error information
+    console.error('Request failed with status code', error.response.status);
+    console.error('Response data:', error.response.data);
 
-        const fields = { name, email, password, role, schoolName }
-        setLoader(true)
-        dispatch(registerUser(fields, role))
+    // Update the state to display an error message to the user
+    setMessage('An error occurred while registering.');
+    setShowPopup(true); // Show the error popup
+    setLoader(false); // Disable the loader
+            });
     };
-
+    
     const handleInputChange = (event) => {
         const { name } = event.target;
         if (name === 'email') setEmailError(false);
@@ -59,21 +89,19 @@ const AdminRegisterPage = () => {
         if (name === 'adminName') setAdminNameError(false);
         if (name === 'schoolName') setSchoolNameError(false);
     };
-
+    
     useEffect(() => {
         if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
             navigate('/Admin/dashboard');
-        }
-        else if (status === 'failed') {
-            setMessage(response)
-            setShowPopup(true)
-            setLoader(false)
-        }
-        else if (status === 'error') {
-            console.log(error)
+        } else if (status === 'failed') {
+            setMessage(response);
+            setShowPopup(true);
+            setLoader(false);
+        } else if (status === 'error') {
+            console.log(error);
         }
     }, [status, currentUser, currentRole, navigate, error, response]);
-
+    
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
