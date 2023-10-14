@@ -33,10 +33,6 @@ const studentRegister = async (req, res) => {
             return res.status(400).json({ message: 'Password does not meet the criteria.' });
         }
 
-        // Check if passwords match
-        // if (req.body.password !== req.body.retypedPassword) {
-        //     return res.status(400).json({ message: 'Passwords do not match' });
-        // }
 
         if (req.body.password !== req.body.retypepassword) {
             return res.status(400).json({ message: 'Passwords do not match' });
