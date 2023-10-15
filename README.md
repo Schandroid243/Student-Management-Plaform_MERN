@@ -65,12 +65,13 @@ The Backend API will be running at `localhost:5000`.
 * Currenly running the application Locally
   
 # Security Features
+1. A password Validator.
+ In the platform, the Admin registers themselves and a school.
+ They then enroll Teachers and students. To ensure the Admins set strong passwords, a password validator criteria and a retype password confirmation are used. 
 
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/CodeSnippet.png)
 
-1. A password Validator. 
- In the platform, the Admin registers themselves and a school.
- They then enroll Teachers and students. To ensure the Admins set strong passwords, a password validator criteria and a retype password confirmation are used.
+Testing the Register Endpoint on Postman
 
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/PostmanAPItesting.png)
 
@@ -81,7 +82,7 @@ The Backend API will be running at `localhost:5000`.
 2. Choose Login according to role
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/InterfacesforLogin.png)
 
-3. Database from Mongo
+3. Database from Mongo which shows passwords are encrypted 
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/Database.png)
 
 
