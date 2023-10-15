@@ -71,7 +71,7 @@ The Backend API will be running at `localhost:5000`.
 To ensure the Admins set strong password, I am suing a password validator creteria and a retype password confirmation
 https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/CodeSnippet.png  I also tested the same on Postman here : https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/PostmanAPItesting.png
 
-#Main Interfaces 
+# Main Interfaces 
 1. Home page
    https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/HomePage.png
 2. Choose Login according to role
