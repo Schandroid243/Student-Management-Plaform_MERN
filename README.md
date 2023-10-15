@@ -26,7 +26,7 @@ The School Management System is a web-based application built using the MERN (Mo
 
 - **Data Visualization:** Students can visualize their performance data through interactive charts and tables, helping them understand their academic performance at a glance.
 
-- **Communication:** Users can communicate effortlessly through the system. Teachers can send messages to students and vice versa, promoting effective communication and collaboration.
+- **Communication:** Users can communicate effortlessly through the system. Teachers can send messages to students and vice versa, while admins can access the communications across all platforms promoting effective communication and collaboration.
 
 ## Technologies Used
 
@@ -65,4 +65,21 @@ The Backend API will be running at `localhost:5000`.
 * Currenly running the application Locally
   
 # Security Features
-* Coming up soon
+ 1. A password Validator. 
+ In the platform the Admin registers themselves and a school.
+ They then enroll Teachers and students
+To ensure the Admins set strong password, I am suing a password validator creteria and a retype password confirmation
+https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/CodeSnippet.png  I also tested the same on Postman here : https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/PostmanAPItesting.png
+
+#Main Interfaces 
+1. Home page
+   https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/HomePage.png
+2. Choose Login according to role
+   https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/InterfacesforLogin.png
+3.Database from Mongo
+  https://github.com/WahomeKezia/Student-Management-Plaform_MERN/blob/main/images/Database.png
+
+For more of the UserInterface , find the screenshots in the images folder
+   
+
+
