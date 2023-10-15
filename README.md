@@ -76,7 +76,7 @@ Testing the Register Endpoint on Postman
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/PostmanAPItesting.png)
 
 # Main Interfaces 
-1. Home page
+1. Home page , Note that Register Routes the user to Admin Register Interface 
 ![Alt Text](https://github.com/WahomeKezia/Student-Management-Plaform_MERN/raw/main/images/HomePage.png)
 
 2. Choose Login according to role
