@@ -1,38 +1,60 @@
-const express = require("express")
-const cors = require("cors")
-const mongoose = require("mongoose")
-const dotenv = require("dotenv")
-// const bodyParser = require("body-parser")
-const app = express()
+const cluster = require("cluster");
+const os = require("os");
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const path = require("path");
 
-
-const Routes = require("./routes/route.js")
-
-dotenv.config();
-
-
-const PORT = process.env.PORT || 5000
+const Routes = require("./routes/route.js");
 
 dotenv.config();
 
-// app.use(bodyParser.json({ limit: '10mb', extended: true }))
-// app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
+const PORT = process.env.PORT || 5000;
+const numCPUs = os.cpus().length;
 
-app.use(express.json({ limit: '10mb' }))
-app.use(cors())
+if (cluster.isMaster) {
+  console.log(`👑 Master ${process.pid} is running`);
+  console.log(`🧵 Forking for ${numCPUs} CPUs...`);
 
-mongoose
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  // If a worker dies, restart it
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`⚠️ Worker ${worker.process.pid} died. Restarting...`);
+    cluster.fork();
+  });
+} else {
+  const app = express();
+
+  // Middleware
+  app.use(express.json({ limit: "10mb" })); // replaces bodyParser.json
+  app.use(express.urlencoded({ limit: "10mb", extended: true })); // replaces bodyParser.urlencoded
+  app.use(cors());
+
+  // MongoDB Connection
+  mongoose
     .connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     })
-    .then(console.log("Connected to MongoDB"))
-    .catch((err) => console.log("NOT CONNECTED TO NETWORK", err))
+    .then(() => console.log(`✅ Worker ${process.pid} connected to MongoDB`))
+    .catch((err) =>
+      console.error(`❌ Worker ${process.pid} failed to connect:`, err)
+    );
+  app.use(express.static(path.join(__dirname, "public")));
+  // Routes
+  app.use("/", Routes);
 
-app.use('/', Routes);
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
 
-app.listen(PORT, () => {
-    console.log(`Server started at port no. ${PORT}`)
-})
-
-
+  // Start server
+  app.listen(PORT, () => {
+    console.log(`🚀 Worker ${process.pid} started on port ${PORT}`);
+  });
+}

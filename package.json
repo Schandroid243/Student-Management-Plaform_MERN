@@ -1,0 +1,19 @@
+{
+  "name": "student-management-plaform_mern",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">     SCHOOL MANAGEMENT SYSTEM </h1>",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "npm install --prefix backend",
+    "install-client": "npm install --prefix forntend",
+    "install": "npm run install-server && npm run install-client",
+    "deploy-cluster": "npm run build --prefix frontend && npm run cluster --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schandroid243/Student-Management-Plaform_MERN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,5 +1,6 @@
 // config.js
 
 module.exports = {
-    mongoURI:"mongodb+srv://kwahome:AllanWahome@cluster0.hwtv1fk.mongodb.net/LMS-security",
-  };  
+  mongoURI:
+    "mongodb+srv://schadrackngunza_db_user:MAbWJ3FxotDTNIWf@cluster0.zblfeo5.mongodb.net/",
+};
