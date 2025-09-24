@@ -69,18 +69,11 @@ const AddStudent = ({ situation }) => {
 
     const fields = {
       name,
-      rollNum: Number(rollNum), // ensure number type
+      rollNum: Number(rollNum),
       password,
       sclassName,
-      school: adminID, // match backend required field
+      school: adminID, // ✅ match backend
       role,
-      attendance: [
-        {
-          date: new Date(), // default current date
-          status: "Absent", // default status
-          subName: null, // no subject assigned yet
-        },
-      ],
     };
 
     dispatch(registerUser(fields, role));

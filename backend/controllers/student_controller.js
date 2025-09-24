@@ -14,22 +14,21 @@ const validateStudentPassword = (password) => {
 };
 
 const studentRegister = async (req, res) => {
-  console.log(req.body);
+  console.log("Incoming student data:", req.body);
 
   try {
-    const { name, rollNum, password, sclassName, adminID, role, attendance } =
+    const { name, rollNum, password, sclassName, school, role, attendance } =
       req.body;
 
     // Validate required fields
-    if (!name || !rollNum || !password || !sclassName || !adminID) {
+    if (!name || !rollNum || !password || !sclassName || !school) {
       return res
         .status(400)
         .json({ message: "All required fields must be provided" });
     }
 
     // Validate password
-    const isPasswordValid = validateStudentPassword(password);
-    if (!isPasswordValid) {
+    if (!validateStudentPassword(password)) {
       return res
         .status(400)
         .json({ message: "Password does not meet the criteria." });
@@ -37,9 +36,9 @@ const studentRegister = async (req, res) => {
 
     // Check if student already exists in the same class
     const existingStudent = await Student.findOne({
-      rollNum: rollNum,
-      school: adminID,
-      sclassName: sclassName,
+      rollNum,
+      school,
+      sclassName,
     });
 
     if (existingStudent) {
@@ -47,21 +46,6 @@ const studentRegister = async (req, res) => {
         .status(400)
         .json({ message: "Roll Number already exists in this class" });
     }
-
-    // Ensure attendance array is valid
-    const validatedAttendance = Array.isArray(attendance)
-      ? attendance.map((att) => ({
-          date: att.date || new Date(),
-          status: att.status || "Absent",
-          subName: att.subName || null,
-        }))
-      : [
-          {
-            date: new Date(),
-            status: "Absent",
-            subName: null,
-          },
-        ];
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
@@ -73,16 +57,16 @@ const studentRegister = async (req, res) => {
       rollNum: Number(rollNum),
       password: hashedPass,
       sclassName,
-      school: adminID,
+      school,
       role: role || "Student",
-      attendance: validatedAttendance,
+      attendance: attendance || [],
     });
 
     const result = await student.save();
-    result.password = undefined; // hide password in response
+    result.password = undefined;
     res.status(201).json(result);
   } catch (err) {
-    console.error(err);
+    console.error("Error registering student:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };

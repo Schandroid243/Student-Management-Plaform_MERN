@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 // admin controller routes
+const { getDashboardStats } = require("../controllers/dashboardController");
 const {
   adminRegister,
   adminLogIn,
@@ -162,5 +163,8 @@ router.delete("/SubjectsClass/:id", deleteSubjectsByClass);
 
 // Define a route for admins to list all complaints
 router.get("/complaints/all", complainListForAdmin);
+
+// Dashboard Stats
+router.get("/stats/:adminID", getDashboardStats);
 
 module.exports = router;
